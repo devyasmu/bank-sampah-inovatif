@@ -4,7 +4,7 @@ import heroImage from "@/assets/hero-bank-sampah.jpg";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section id="beranda" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background with overlay */}
       <div className="absolute inset-0 hero-gradient opacity-90"></div>
       <div 

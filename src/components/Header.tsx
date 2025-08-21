@@ -1,20 +1,46 @@
 import { Button } from "@/components/ui/button";
 import { Recycle, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const headerHeight = 80;
+      const elementPosition = element.offsetTop - headerHeight;
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+      });
+    }
+    setIsMenuOpen(false);
+  };
 
   const menuItems = [
-    { label: "Beranda", href: "#beranda" },
-    { label: "Cara Kerja", href: "#cara-kerja" },
-    { label: "Manfaat", href: "#manfaat" },
-    { label: "Tentang", href: "#tentang" },
-    { label: "Kontak", href: "#kontak" }
+    { label: "Beranda", sectionId: "beranda" },
+    { label: "Cara Kerja", sectionId: "cara-kerja" },
+    { label: "Manfaat", sectionId: "manfaat" },
+    { label: "Tentang", sectionId: "tentang" },
+    { label: "Kontak", sectionId: "kontak" }
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-border">
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-white/95 backdrop-blur-md border-b border-border shadow-card' 
+        : 'bg-white/90 backdrop-blur-sm'
+    }`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -31,13 +57,13 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             {menuItems.map((item) => (
-              <a
+              <button
                 key={item.label}
-                href={item.href}
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200"
+                onClick={() => scrollToSection(item.sectionId)}
+                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200 cursor-pointer"
               >
                 {item.label}
-              </a>
+              </button>
             ))}
           </nav>
           
@@ -67,14 +93,13 @@ const Header = () => {
           <div className="md:hidden border-t border-border bg-white">
             <nav className="py-4 space-y-4">
               {menuItems.map((item) => (
-                <a
+                <button
                   key={item.label}
-                  href={item.href}
-                  className="block text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200 py-2"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => scrollToSection(item.sectionId)}
+                  className="block w-full text-left text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200 py-2"
                 >
                   {item.label}
-                </a>
+                </button>
               ))}
               <div className="pt-4 space-y-2">
                 <Button variant="outline" size="sm" className="w-full">

@@ -39,7 +39,7 @@ const stats = [
 
 const Benefits = () => {
   return (
-    <section className="py-20">
+    <section id="manfaat" className="py-20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <Badge variant="outline" className="mb-4 text-primary border-primary">

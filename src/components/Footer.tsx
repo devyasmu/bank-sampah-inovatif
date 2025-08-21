@@ -1,18 +1,55 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Recycle, Mail, Phone, MapPin, Facebook, Instagram, Twitter } from "lucide-react";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const { toast } = useToast();
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    
+    setIsSubscribing(true);
+    
+    // Simulate newsletter subscription
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    toast({
+      title: "Berhasil berlangganan!",
+      description: "Terima kasih telah berlangganan newsletter kami.",
+    });
+    
+    setEmail("");
+    setIsSubscribing(false);
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const headerHeight = 80;
+      const elementPosition = element.offsetTop - headerHeight;
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   const socialLinks = [
-    { icon: Facebook, href: "#", label: "Facebook" },
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Twitter, href: "#", label: "Twitter" }
+    { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
+    { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
+    { icon: Twitter, href: "https://twitter.com", label: "Twitter" }
   ];
 
   const quickLinks = [
-    { label: "Cara Kerja", href: "#cara-kerja" },
-    { label: "Manfaat", href: "#manfaat" },
-    { label: "Tentang Kami", href: "#tentang" },
-    { label: "FAQ", href: "#faq" }
+    { label: "Cara Kerja", sectionId: "cara-kerja" },
+    { label: "Manfaat", sectionId: "manfaat" },
+    { label: "Tentang Kami", sectionId: "tentang" },
+    { label: "Kontak", sectionId: "kontak" }
   ];
 
   const contactInfo = [
@@ -62,12 +99,12 @@ const Footer = () => {
             <ul className="space-y-2">
               {quickLinks.map((link, index) => (
                 <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-sm opacity-90 hover:opacity-100 transition-opacity duration-200"
+                  <button
+                    onClick={() => scrollToSection(link.sectionId)}
+                    className="text-sm opacity-90 hover:opacity-100 transition-opacity duration-200 text-left"
                   >
                     {link.label}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -92,19 +129,24 @@ const Footer = () => {
             <p className="text-sm opacity-90 mb-4">
               Dapatkan update terbaru tentang program bank sampah
             </p>
-            <div className="space-y-2">
-              <input
+            <form onSubmit={handleNewsletterSubmit} className="space-y-2">
+              <Input
                 type="email"
                 placeholder="Email Anda"
-                className="w-full px-3 py-2 text-sm bg-white/20 border border-white/30 rounded-lg placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-white/50"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="bg-white/20 border-white/30 placeholder:text-white/70 text-white"
+                required
               />
               <Button
+                type="submit"
                 size="sm"
                 className="w-full bg-white text-primary hover:bg-white/90"
+                disabled={isSubscribing}
               >
-                Berlangganan
+                {isSubscribing ? "Berlangganan..." : "Berlangganan"}
               </Button>
-            </div>
+            </form>
           </div>
         </div>
         
