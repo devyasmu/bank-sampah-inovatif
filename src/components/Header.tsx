@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Recycle, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,10 +71,10 @@ const Header = () => {
           
           {/* CTA Button */}
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={() => navigate("/auth")}>
               Masuk
             </Button>
-            <Button size="sm" className="shadow-primary">
+            <Button size="sm" className="shadow-primary" onClick={() => navigate("/auth")}>
               Daftar Sekarang
             </Button>
           </div>
@@ -102,10 +104,10 @@ const Header = () => {
                 </button>
               ))}
               <div className="pt-4 space-y-2">
-                <Button variant="outline" size="sm" className="w-full">
+                <Button variant="outline" size="sm" className="w-full" onClick={() => navigate("/auth")}>
                   Masuk
                 </Button>
-                <Button size="sm" className="w-full shadow-primary">
+                <Button size="sm" className="w-full shadow-primary" onClick={() => navigate("/auth")}>
                   Daftar Sekarang
                 </Button>
               </div>
