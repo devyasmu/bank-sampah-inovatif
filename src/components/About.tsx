@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Users, Target, Leaf, Award, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const stats = [
   { number: "5+", label: "Tahun Pengalaman", description: "Melayani komunitas" },
@@ -38,6 +39,12 @@ const values = [
 ];
 
 const About = () => {
+  const navigate = useNavigate();
+
+  const handleJoinMission = () => {
+    navigate('/auth');
+  };
+
   return (
     <section id="tentang" className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
@@ -66,7 +73,7 @@ const About = () => {
               Melalui sistem bank sampah yang inovatif, kami memfasilitasi masyarakat untuk berpartisipasi 
               aktif dalam program daur ulang sambil mendapatkan keuntungan finansial yang nyata.
             </p>
-            <Button className="shadow-primary">
+            <Button className="shadow-primary" onClick={handleJoinMission}>
               <Users className="w-5 h-5 mr-2" />
               Bergabung dengan Misi Kami
               <ArrowRight className="w-5 h-5 ml-2" />
