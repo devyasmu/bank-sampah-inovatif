@@ -1,8 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Recycle, Coins } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/hero-bank-sampah.jpg";
 
 const Hero = () => {
+  const navigate = useNavigate();
+
+  const handleStartSaving = () => {
+    navigate('/auth');
+  };
+
+  const handleLearnMore = () => {
+    const aboutSection = document.getElementById('tentang');
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="beranda" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background with overlay */}
@@ -51,12 +65,21 @@ const Hero = () => {
           
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-hover transition-all duration-300 font-semibold px-8 py-4 rounded-full">
+            <Button 
+              size="lg" 
+              onClick={handleStartSaving}
+              className="bg-white text-primary hover:bg-white/90 shadow-hover transition-all duration-300 font-semibold px-8 py-4 rounded-full"
+            >
               <Coins className="w-5 h-5 mr-2" />
               Mulai Menabung Sampah
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary transition-all duration-300 font-semibold px-8 py-4 rounded-full">
+            <Button 
+              size="lg" 
+              variant="outline" 
+              onClick={handleLearnMore}
+              className="border-white text-white hover:bg-white hover:text-primary transition-all duration-300 font-semibold px-8 py-4 rounded-full"
+            >
               Pelajari Selengkapnya
             </Button>
           </div>
